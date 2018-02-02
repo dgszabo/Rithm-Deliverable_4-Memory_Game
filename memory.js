@@ -24,6 +24,36 @@ document.addEventListener("DOMContentLoaded", function(){
 		assignCardsToImgBoxes();
 		addImgBoxListeners();
 		navbarBtns();
+		createLocalStore();
+	}
+
+	function createLocalStore() {
+		if(!localStorage.scoreBoard) {
+			localStorage.scoreBoard = '[]';
+		}
+	}
+
+	function writeToLocalStore() {
+		var storageArr = JSON.parse(localStorage.scoreBoard);
+		if(storageArr.length === 0) {
+			storageArr.push(score);
+		} else {
+			if(parseInt(storageArr[0]) > score) {
+				storageArr.splice(0, 0, score);
+			} else {
+				for(var i = storageArr.length - 1; i >=0 ; i--) {
+					if(parseInt(storageArr[i]) <= score) {
+						storageArr.splice(i + 1, 0, score);
+						break;
+					}
+				}
+			}
+
+			if(storageArr.length > 10) {
+				storageArr.pop();
+			}
+		}
+		localStorage.scoreBoard = JSON.stringify(storageArr);
 	}
 
 	function navbarBtns() {
@@ -110,7 +140,8 @@ document.addEventListener("DOMContentLoaded", function(){
 							foundPairs++;
 							twoOpen = false;
 							if(pairCounter === foundPairs) {
-								alert('Game Over');
+								alert('Game Over\nYour score is ' + score);
+								writeToLocalStore();
 							}
 						} else {
 							setTimeout(function() {

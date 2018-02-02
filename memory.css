@@ -1,7 +1,12 @@
+body {
+	background-color: #F5F5F5;
+}
+
 img {
 	max-width: 100%;
 	display: block;
 	transition: display 2s linear;
+	border-radius: 20%;
 }
 
 .hidden {
@@ -25,10 +30,6 @@ img {
 	margin: 10px;
 	border: .5px solid black;
 	border-radius: 20%;
-}
-
-#gameTable {
-
 }
 
 #mesh {
