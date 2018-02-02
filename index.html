@@ -5,9 +5,55 @@
 	<title>Memory Game</title>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 	<link href="https://use.fontawesome.com/releases/v5.0.4/css/all.css" rel="stylesheet">
+	<link rel="stylesheet" href="memory.css">
+	
 </head>
 <body>
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+		<a class="navbar-brand" href="#">Christmas Memory Game</a>
+		<div class="pull-right small text-white">by Daniel</div>
+
+		 	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+		    	<span class="navbar-toggler-icon"></span>
+		  	</button>
+
+		<div class="collapse navbar-collapse" id="navbarSupportedContent">
+		    <ul class="navbar-nav mr-auto">
+		      <li class="nav-item">
+		        <a class="nav-link" href="#">Restart Game<span class="sr-only">(current)</span></a>
+		      </li>
+		      <li class="nav-item">
+		        <a class="nav-link" href="#">Scoreboard</a>
+		      </li>
+		    </ul>
+		</div>
+	</nav>
+
+
+	<div class="container col-12 col-sm-9 col-lg-7" id="gameTable">
+		<div class="row d-flex justify-content-center">
+			<div class="imgBox">
+				<img src="penguin.png" alt="Penguin">
+			</div>
+			<div class="imgBox">
+				<img src="penguin.png" alt="Penguin">
+			</div>
+			
+			<div class="imgBox">
+				<img src="snowFlake.png" alt="Snow FLake">
+			</div>
+			<div class="imgBox">
+				<img src="snowFlake.png" alt="Snow FLake">
+			</div>
+
+		</div>
+	</div>
+
+	<div id="mesh"></div>
 	
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 	<script src="memory.js"></script>
 </body>
 </html>

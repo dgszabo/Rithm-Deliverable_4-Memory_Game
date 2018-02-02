@@ -1,0 +1,30 @@
+img {
+	max-width: 200px;
+	width: auto;
+}
+
+.navbar-toggler {
+	margin-right: 50px;
+}
+
+.pull-right {
+	position: fixed;
+	top: 19px;
+	right: 6px;
+}
+
+#gameTable {
+
+}
+
+#mesh {
+	background-color: #778899;
+	width: 100%;
+	height: 100%;
+	opacity: .5;
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	display: none;
+	z-index: 500;
+}
