@@ -9,8 +9,12 @@ img {
 	border-radius: 20%;
 }
 
+h3 {
+	text-align: center;
+}
+
 .hidden {
-	display: none;
+	display: none !important;
 }
 
 .navbar-toggler {
@@ -40,6 +44,24 @@ img {
 	position: fixed;
 	top: 0px;
 	left: 0px;
-	display: none;
 	z-index: 500;
+}
+
+#youWonBoard {
+	background-color: #2F4F4F;
+	border-top: solid 1px #C0C0C0;
+	border-left: solid 1px #C0C0C0;
+	border-right: solid 1px #C0C0C0;
+	border-top-left-radius: 5%;
+	border-top-right-radius: 5%;
+	color: white;
+}
+
+#scoreBoard {
+	background-color: #696969;
+	border-top: solid 1px #C0C0C0;
+	border-left: solid 1px #C0C0C0;
+	border-right: solid 1px #C0C0C0;
+	border-top-left-radius: 5%;
+	border-top-right-radius: 5%;
 }

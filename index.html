@@ -23,7 +23,7 @@
 		        <a class="nav-link" href="#" id="restart">Restart Game</a>
 		      </li>
 		      <li class="nav-item">
-		        <a class="nav-link" href="#">Scoreboard</a>
+		        <a class="nav-link" href="#" id="goToScoreBoard">Scoreboard</a>
 		      </li>
 		    </ul>
 		</div>
@@ -49,8 +49,45 @@
 
 		</div>
 	</div>
+	
+	<div id="mesh" class="hidden"></div>
+	
+	<div id="youWonBoard" class="container col-11 col-sm-5 col-md-5 col-lg-4 col-xl-3 p-3 fixed-bottom hidden">
+		<h3>You Won!</h3>
+		
+		<button id="okayBtn" class="btn btn-default btn-block">OK</button>
 
-	<div id="mesh"></div>
+		<form id="nameInputForm" action="#">
+			<div class="form-group">
+		    	<label for="exampleInputEmail1">Your name</label>
+			    <div class="input-group input-group-sm">
+			    	<input type="text" class="form-control" id="nameText" placeholder="Enter name" maxlength="20">
+			    </div>
+			    <small id="emailHelp" class="form-text text-muted">Type in your name (max. 20 characters)</small>
+		  	</div>
+		  	<button type="submit" class="btn btn-default btn-block">Submit</button>
+		</form>
+	</div>
+
+	<div id="scoreBoard" class="container col-11 col-sm-5 col-md-5 col-lg-4 col-xl-3 p-3 fixed-bottom d-flex flex-column align-items-center hidden">
+
+		<h3>Score Board</h3>
+		<ol class="align-self-start">
+			<li>Test</li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			
+		</ol>
+		<button class="btn btn-default btn-block">New Game</button>
+		<button class="btn btn-default btn-block hidden">Resume Game</button>
+	</div>
 	
 	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>

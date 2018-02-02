@@ -1,18 +1,29 @@
-var cards = ['angel', 'bells', 'boot', 'candyCane', 'elf', 'gingerBreadMan', 'gingerBreadWoman', 'greenBulb', 'laurel', 'lights', 'northPole', 'owl', 'penguin', 'penguinDeer', 'present', 'redBulb', 'reindeer', 'santa', 'sleigh', 'snowFlake', 'snowMan', 'star', 'tree', 'wreath'];
-var selectedCards = [];
-var allGameCards = [];
-var statusStorage = {};
-var score = 0;
-var oneOpen = false;
-var twoOpen = false;
-var tempSelector;
-var pairCounter = 0;
-var foundPairs = 0;
-
-
 document.addEventListener("DOMContentLoaded", function(){
+	// DOM selectors
 	var imageBoxes = document.querySelectorAll('.imgBox');
 	var newGameBtn = document.querySelector('#restart');
+	var goToScoreBoardBtn = document.querySelector('#goToScoreBoard');
+	var mesh = document.querySelector('#mesh');
+	var youWonBoard = document.querySelector('#youWonBoard');
+	var okayBtn = document.querySelector('#okayBtn');
+	var nameInputForm = document.querySelector('#nameInputForm');
+	var nameText = document.querySelector('#nameText');
+	var nameInputButton = document.querySelector('#nameInputForm > button');
+	var scoreBoard = document.querySelector('#scoreBoard');
+	var scoreBoardLis = document.querySelectorAll('#scoreBoard li');
+
+	// all other support variables
+	var cards = ['angel', 'bells', 'boot', 'candyCane', 'elf', 'gingerBreadMan', 'gingerBreadWoman', 'greenBulb', 'laurel', 'lights', 'northPole', 'owl', 'penguin', 'penguinDeer', 'present', 'redBulb', 'reindeer', 'santa', 'sleigh', 'snowFlake', 'snowMan', 'star', 'tree', 'wreath'];
+	var selectedCards = [];
+	var allGameCards = [];
+	var statusStorage = {};
+	var score = 0;
+	var player = '';
+	var oneOpen = false;
+	var twoOpen = false;
+	var tempSelector;
+	var pairCounter = 0;
+	var foundPairs = 0;
 
 	init();
 	
@@ -25,35 +36,44 @@ document.addEventListener("DOMContentLoaded", function(){
 		addImgBoxListeners();
 		navbarBtns();
 		createLocalStore();
+		youWonBoardBtns();
+		scoreBoardBtns();
 	}
 
 	function createLocalStore() {
-		if(!localStorage.scoreBoard) {
-			localStorage.scoreBoard = '[]';
+		if(!localStorage.scores) {
+			localStorage.scores = '[]';
+			localStorage.winners = '[]';
 		}
 	}
 
 	function writeToLocalStore() {
-		var storageArr = JSON.parse(localStorage.scoreBoard);
+		var storageArr = JSON.parse(localStorage.scores);
+		var winnerArr = JSON.parse(localStorage.winners);
 		if(storageArr.length === 0) {
 			storageArr.push(score);
+			winnerArr.push(player);
 		} else {
 			if(parseInt(storageArr[0]) > score) {
 				storageArr.splice(0, 0, score);
+				winnerArr.splice(0, 0, player);
 			} else {
 				for(var i = storageArr.length - 1; i >=0 ; i--) {
 					if(parseInt(storageArr[i]) <= score) {
 						storageArr.splice(i + 1, 0, score);
+						winnerArr.splice(i + 1, 0, player);
 						break;
 					}
 				}
 			}
 
-			if(storageArr.length > 10) {
+			if(storageArr.length > 3) {
 				storageArr.pop();
+				winnerArr.pop();
 			}
 		}
-		localStorage.scoreBoard = JSON.stringify(storageArr);
+		localStorage.scores = JSON.stringify(storageArr);
+		localStorage.winners = JSON.stringify(winnerArr);
 	}
 
 	function navbarBtns() {
@@ -63,6 +83,43 @@ document.addEventListener("DOMContentLoaded", function(){
 			setupStatusStorage();
 			duplicateAndShuffleCards();
 			assignCardsToImgBoxes();
+		});
+
+		goToScoreBoardBtn.addEventListener('click', function() {
+			renderMesh();
+			document.querySelectorAll('#scoreBoard button')[1].classList.remove('hidden');
+			renderScoreBoard();
+		});
+	}
+
+	function youWonBoardBtns() {
+		okayBtn.addEventListener('click', function() {
+			youWonBoard.classList.add('hidden');
+			renderScoreBoard();
+		});
+
+		nameInputButton.addEventListener('click', function() {
+			youWonBoard.classList.add('hidden');
+			player = nameText.value;
+			writeToLocalStore();
+			nameInputForm.reset();
+			renderScoreBoard();
+		});
+	}
+
+	function scoreBoardBtns() {
+		document.querySelectorAll('#scoreBoard button')[0].addEventListener('click', function() {
+			reset();
+			selectRandomCards();
+			setupStatusStorage();
+			duplicateAndShuffleCards();
+			assignCardsToImgBoxes();
+		});
+
+		document.querySelectorAll('#scoreBoard button')[1].addEventListener('click', function() {
+			mesh.classList.add('hidden');
+			scoreBoard.classList.add('hidden');
+
 		});
 	}
 
@@ -85,6 +142,11 @@ document.addEventListener("DOMContentLoaded", function(){
 		for(var i = 0; i < imageBoxes.length; i++) {
 			imageBoxes[i].firstElementChild.classList.add('hidden');
 		}
+		youWonBoard.classList.add('hidden');
+		scoreBoard.classList.add('hidden');
+		mesh.classList.add('hidden');
+
+		clearScoreBoard();
 	}
 
 	function selectRandomCards() {
@@ -122,7 +184,6 @@ document.addEventListener("DOMContentLoaded", function(){
 
 	function addImgBoxListeners() {
 		for(var i = 0; i < imageBoxes.length; i++) {
-			// adding event listeners to the cards
 			imageBoxes[i].addEventListener('click', function() {
 				var target = this.firstElementChild;
 				if(target.classList[0] === 'hidden' && twoOpen === false) {
@@ -140,8 +201,8 @@ document.addEventListener("DOMContentLoaded", function(){
 							foundPairs++;
 							twoOpen = false;
 							if(pairCounter === foundPairs) {
-								alert('Game Over\nYour score is ' + score);
-								writeToLocalStore();
+								renderMesh();
+								renderYouWonBoard();
 							}
 						} else {
 							setTimeout(function() {
@@ -154,6 +215,40 @@ document.addEventListener("DOMContentLoaded", function(){
 					}
 				}
 			});
+		}
+	}
+
+	function renderMesh() {
+		mesh.classList.remove('hidden');
+	}
+
+	function renderYouWonBoard() {
+		var storageArr = JSON.parse(localStorage.scores);
+		if(storageArr.length < 3 || storageArr[storageArr.length - 1] > score) {
+			okayBtn.classList.add('hidden');
+			nameInputForm.classList.remove('hidden');
+		} else {
+			okayBtn.classList.remove('hidden');
+			nameInputForm.classList.add('hidden');
+		}
+		youWonBoard.classList.remove('hidden');
+	}
+
+	function renderScoreBoard() {
+		var storageArr = JSON.parse(localStorage.scores);
+		var winnerArr = JSON.parse(localStorage.winners);
+
+		scoreBoard.classList.remove('hidden');
+
+		for(var i = 0; i < storageArr.length; i++) {
+			scoreBoardLis[i].textContent = winnerArr[i] + ' - ' + storageArr[i];
+		}
+
+	}
+
+	function clearScoreBoard() {
+		for(var i = 0; i < scoreBoardLis.length; i++) {
+			scoreBoardLis[i].textContent = '';
 		}
 	}
 });
