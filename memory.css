@@ -1,6 +1,11 @@
 img {
-	max-width: 200px;
-	width: auto;
+	max-width: 100%;
+	display: block;
+	transition: display 2s linear;
+}
+
+.hidden {
+	display: none;
 }
 
 .navbar-toggler {
@@ -11,6 +16,15 @@ img {
 	position: fixed;
 	top: 19px;
 	right: 6px;
+}
+
+.imgBox {
+	background-color: #2F4F4F;
+	width: 200px;
+	height: 200px;
+	margin: 10px;
+	border: .5px solid black;
+	border-radius: 20%;
 }
 
 #gameTable {
