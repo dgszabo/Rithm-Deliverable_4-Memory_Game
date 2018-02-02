@@ -1,5 +1,6 @@
 var cards = ['angel', 'bells', 'boot', 'candyCane', 'elf', 'gingerBreadMan', 'gingerBreadWoman', 'greenBulb', 'laurel', 'lights', 'northPole', 'owl', 'penguin', 'penguinDeer', 'present', 'redBulb', 'reindeer', 'santa', 'sleigh', 'snowFlake', 'snowMan', 'star', 'tree', 'wreath'];
 var selectedCards = [];
+var allGameCards = [];
 var statusStorage = {};
 var score = 0;
 var oneOpen = false;
@@ -11,31 +12,48 @@ var foundPairs = 0;
 
 document.addEventListener("DOMContentLoaded", function(){
 	var imageBoxes = document.querySelectorAll('.imgBox');
+	var newGameBtn = document.querySelector('#restart');
 
-	selectRandomCards();
-	assignCardsToImgBoxes();
-	reset();
-	addImgBoxListeners();
+	init();
+	
+	function init() {
+		reset();
+		selectRandomCards();
+		setupStatusStorage();
+		duplicateAndShuffleCards();
+		assignCardsToImgBoxes();
+		addImgBoxListeners();
+		navbarBtns();
+	}
 
-	function navbarButtons() {
+	function navbarBtns() {
+		newGameBtn.addEventListener('click', function() {
+			reset();
+			selectRandomCards();
+			setupStatusStorage();
+			duplicateAndShuffleCards();
+			assignCardsToImgBoxes();
+		});
+	}
 
+	function setupStatusStorage() {
+		for(var i = 0; i < selectedCards.length; i++) {
+			// making a list of the added pictures
+			statusStorage[selectedCards[i]] = false;
+			pairCounter++;
+		}
 	}
 
 	function reset() {
 		// reset variables
 		statusStorage = {};
-		tempSelector = undefined;
+		selectedCards = [];
+		allGameCards = [];
 		pairCounter = 0;
 		foundPairs = 0;
-
+		score = 0;
 		for(var i = 0; i < imageBoxes.length; i++) {
-			// making a list of the added pictures
-			var pictureName = getPictureName(imageBoxes[i].firstElementChild.src);
-
-			if(statusStorage[pictureName] === undefined) {
-				statusStorage[pictureName] = false;
-				pairCounter++;
-			}
+			imageBoxes[i].firstElementChild.classList.add('hidden');
 		}
 	}
 
@@ -46,14 +64,23 @@ document.addEventListener("DOMContentLoaded", function(){
 		}
 	}
 
-	function assignCardsToImgBoxes() {
-		var tempCards = [].concat(selectedCards);
-		var allCards = [].concat(selectedCards);
-		for(var i = 0; i < selectedCards.length; i++) {
-			allCards.push(tempCards.splice(Math.floor(Math.random() * tempCards.length), 1)[0]);
+	function duplicateAndShuffleCards() {
+  		allGameCards = selectedCards;
+  		allGameCards = allGameCards.concat(selectedCards);;
+  		var currentIndex = allGameCards.length, temporaryValue, randomIndex;
+  
+	  	while (0 !== currentIndex) {
+		    randomIndex = Math.floor(Math.random() * currentIndex);
+		    currentIndex -= 1;
+		    temporaryValue = allGameCards[currentIndex];
+		    allGameCards[currentIndex] = allGameCards[randomIndex];
+		    allGameCards[randomIndex] = temporaryValue;
 		}
+	}
+
+	function assignCardsToImgBoxes() {
 		for(var i = 0; i < imageBoxes.length; i++) {
-			imageBoxes[i].firstElementChild.src = 'Cards/' + allCards[i] + '.png';
+			imageBoxes[i].firstElementChild.src = 'Cards/' + allGameCards[i] + '.png';
 		}
 	}
 
