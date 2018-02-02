@@ -40,42 +40,8 @@ document.addEventListener("DOMContentLoaded", function(){
 		scoreBoardBtns();
 	}
 
-	function createLocalStore() {
-		if(!localStorage.scores) {
-			localStorage.scores = '[]';
-			localStorage.winners = '[]';
-		}
-	}
-
-	function writeToLocalStore() {
-		var storageArr = JSON.parse(localStorage.scores);
-		var winnerArr = JSON.parse(localStorage.winners);
-		if(storageArr.length === 0) {
-			storageArr.push(score);
-			winnerArr.push(player);
-		} else {
-			if(parseInt(storageArr[0]) > score) {
-				storageArr.splice(0, 0, score);
-				winnerArr.splice(0, 0, player);
-			} else {
-				for(var i = storageArr.length - 1; i >=0 ; i--) {
-					if(parseInt(storageArr[i]) <= score) {
-						storageArr.splice(i + 1, 0, score);
-						winnerArr.splice(i + 1, 0, player);
-						break;
-					}
-				}
-			}
-
-			if(storageArr.length > 3) {
-				storageArr.pop();
-				winnerArr.pop();
-			}
-		}
-		localStorage.scores = JSON.stringify(storageArr);
-		localStorage.winners = JSON.stringify(winnerArr);
-	}
-
+	// FUNCTIONS CREATING THE EVENT LISTENERS ON ALL THE BUTTONS
+	//	Function creating the navbar listeners
 	function navbarBtns() {
 		newGameBtn.addEventListener('click', function() {
 			reset();
@@ -92,6 +58,7 @@ document.addEventListener("DOMContentLoaded", function(){
 		});
 	}
 
+	// Function creating the you won board listeners
 	function youWonBoardBtns() {
 		okayBtn.addEventListener('click', function() {
 			youWonBoard.classList.add('hidden');
@@ -107,6 +74,7 @@ document.addEventListener("DOMContentLoaded", function(){
 		});
 	}
 
+	// Function creating the scoreboard listeners
 	function scoreBoardBtns() {
 		document.querySelectorAll('#scoreBoard button')[0].addEventListener('click', function() {
 			reset();
@@ -122,66 +90,8 @@ document.addEventListener("DOMContentLoaded", function(){
 
 		});
 	}
-
-	function setupStatusStorage() {
-		for(var i = 0; i < selectedCards.length; i++) {
-			// making a list of the added pictures
-			statusStorage[selectedCards[i]] = false;
-			pairCounter++;
-		}
-	}
-
-	function reset() {
-		// reset variables
-		statusStorage = {};
-		selectedCards = [];
-		allGameCards = [];
-		pairCounter = 0;
-		foundPairs = 0;
-		score = 0;
-		for(var i = 0; i < imageBoxes.length; i++) {
-			imageBoxes[i].firstElementChild.classList.add('hidden');
-		}
-		youWonBoard.classList.add('hidden');
-		scoreBoard.classList.add('hidden');
-		mesh.classList.add('hidden');
-
-		clearScoreBoard();
-	}
-
-	function selectRandomCards() {
-		var allCards = cards;
-		for(var i = 0; i < imageBoxes.length / 2; i++) {
-			selectedCards.push(allCards.splice(Math.floor(Math.random() * allCards.length) , 1)[0]);
-		}
-	}
-
-	function duplicateAndShuffleCards() {
-  		allGameCards = selectedCards;
-  		allGameCards = allGameCards.concat(selectedCards);;
-  		var currentIndex = allGameCards.length, temporaryValue, randomIndex;
-  
-	  	while (0 !== currentIndex) {
-		    randomIndex = Math.floor(Math.random() * currentIndex);
-		    currentIndex -= 1;
-		    temporaryValue = allGameCards[currentIndex];
-		    allGameCards[currentIndex] = allGameCards[randomIndex];
-		    allGameCards[randomIndex] = temporaryValue;
-		}
-	}
-
-	function assignCardsToImgBoxes() {
-		for(var i = 0; i < imageBoxes.length; i++) {
-			imageBoxes[i].firstElementChild.src = 'Cards/' + allGameCards[i] + '.png';
-		}
-	}
-
-	function getPictureName(fullAddress) {
-		var fullAddressArr = fullAddress.split('/');
-		var pictureName = fullAddressArr[fullAddressArr.length - 1];
-		return pictureName;
-	}
-
+		
+	// Function creating the listeners on the images
 	function addImgBoxListeners() {
 		for(var i = 0; i < imageBoxes.length; i++) {
 			imageBoxes[i].addEventListener('click', function() {
@@ -218,10 +128,70 @@ document.addEventListener("DOMContentLoaded", function(){
 		}
 	}
 
+	// FUNCTION RESETTING THE GAME BEFORE EACH NEW GAME
+	function reset() {
+		// reset variables
+		statusStorage = {};
+		selectedCards = [];
+		allGameCards = [];
+		pairCounter = 0;
+		foundPairs = 0;
+		score = 0;
+		for(var i = 0; i < imageBoxes.length; i++) {
+			imageBoxes[i].firstElementChild.classList.add('hidden');
+		}
+		youWonBoard.classList.add('hidden');
+		scoreBoard.classList.add('hidden');
+		mesh.classList.add('hidden');
+
+		clearScoreBoard();
+	}
+
+	// FUNCTIONS SELECTING, SHUFFLING, ASSIGNING THE CARDS
+	// Function selecting the cards from the folder randomly
+	function selectRandomCards() {
+		var allCards = cards;
+		for(var i = 0; i < imageBoxes.length / 2; i++) {
+			selectedCards.push(allCards.splice(Math.floor(Math.random() * allCards.length) , 1)[0]);
+		}
+	}
+
+	// Function duplicating and shuffling the cards in the array
+	function duplicateAndShuffleCards() {
+  		allGameCards = selectedCards;
+  		allGameCards = allGameCards.concat(selectedCards);;
+  		var currentIndex = allGameCards.length, temporaryValue, randomIndex;
+  
+	  	while (0 !== currentIndex) {
+		    randomIndex = Math.floor(Math.random() * currentIndex);
+		    currentIndex -= 1;
+		    temporaryValue = allGameCards[currentIndex];
+		    allGameCards[currentIndex] = allGameCards[randomIndex];
+		    allGameCards[randomIndex] = temporaryValue;
+		}
+	}
+
+	// Function dealing the cards
+	function assignCardsToImgBoxes() {
+		for(var i = 0; i < imageBoxes.length; i++) {
+			imageBoxes[i].firstElementChild.src = 'Cards/' + allGameCards[i] + '.png';
+		}
+	}
+
+	// Helper function that helps comparing the cards chosen
+	function getPictureName(fullAddress) {
+		var fullAddressArr = fullAddress.split('/');
+		var pictureName = fullAddressArr[fullAddressArr.length - 1];
+		return pictureName;
+	}
+
+	// BOARD AND MESH FUNCTIONS
+	// Mesh rendering function
 	function renderMesh() {
 		mesh.classList.remove('hidden');
 	}
 
+	// Function rendering the You Won! Board
 	function renderYouWonBoard() {
 		var storageArr = JSON.parse(localStorage.scores);
 		if(storageArr.length < 3 || storageArr[storageArr.length - 1] > score) {
@@ -234,6 +204,7 @@ document.addEventListener("DOMContentLoaded", function(){
 		youWonBoard.classList.remove('hidden');
 	}
 
+	// Functions rendering and clearing the Scoreboard
 	function renderScoreBoard() {
 		var storageArr = JSON.parse(localStorage.scores);
 		var winnerArr = JSON.parse(localStorage.winners);
@@ -251,4 +222,53 @@ document.addEventListener("DOMContentLoaded", function(){
 			scoreBoardLis[i].textContent = '';
 		}
 	}
+
+	// STORAGE FUNCTIONS - CREATE & WRITE
+	// Function creating a temporary gameplay storage
+	function setupStatusStorage() {
+		for(var i = 0; i < selectedCards.length; i++) {
+			// making a list of the added pictures
+			statusStorage[selectedCards[i]] = false;
+			pairCounter++;
+		}
+	}
+
+	// Function creating local storage properties
+	function createLocalStore() {
+		if(!localStorage.scores) {
+			localStorage.scores = '[]';
+			localStorage.winners = '[]';
+		}
+	}
+
+	// Function writing the scores and players in the local storage
+	function writeToLocalStore() {
+		var storageArr = JSON.parse(localStorage.scores);
+		var winnerArr = JSON.parse(localStorage.winners);
+		if(storageArr.length === 0) {
+			storageArr.push(score);
+			winnerArr.push(player);
+		} else {
+			if(parseInt(storageArr[0]) > score) {
+				storageArr.splice(0, 0, score);
+				winnerArr.splice(0, 0, player);
+			} else {
+				for(var i = storageArr.length - 1; i >=0 ; i--) {
+					if(parseInt(storageArr[i]) <= score) {
+						storageArr.splice(i + 1, 0, score);
+						winnerArr.splice(i + 1, 0, player);
+						break;
+					}
+				}
+			}
+
+			if(storageArr.length > 3) {
+				storageArr.pop();
+				winnerArr.pop();
+			}
+		}
+		localStorage.scores = JSON.stringify(storageArr);
+		localStorage.winners = JSON.stringify(winnerArr);
+	}
+
 });
