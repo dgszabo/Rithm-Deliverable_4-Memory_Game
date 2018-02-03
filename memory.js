@@ -3,6 +3,7 @@ document.addEventListener("DOMContentLoaded", function(){
 	var imageBoxes = document.querySelectorAll('.imgBox');
 	var newGameBtn = document.querySelector('#restart');
 	var goToScoreBoardBtn = document.querySelector('#goToScoreBoard');
+	var scoreDisplay = document.querySelector('#scoreKeeper span');
 	var mesh = document.querySelector('#mesh');
 	var youWonBoard = document.querySelector('#youWonBoard');
 	var okayBtn = document.querySelector('#okayBtn');
@@ -120,10 +121,11 @@ document.addEventListener("DOMContentLoaded", function(){
 							    statusStorage[getPictureName(target.src)] = false;
 							    tempSelector.classList.add('hidden');
 							    twoOpen = false;
-							}, 2000);
+							}, 1333);
 						}
 					}
 				}
+				scoreDisplay.textContent = score;
 			});
 		}
 	}
@@ -137,6 +139,7 @@ document.addEventListener("DOMContentLoaded", function(){
 		pairCounter = 0;
 		foundPairs = 0;
 		score = 0;
+		
 		for(var i = 0; i < imageBoxes.length; i++) {
 			imageBoxes[i].firstElementChild.classList.add('hidden');
 		}
@@ -145,6 +148,7 @@ document.addEventListener("DOMContentLoaded", function(){
 		mesh.classList.add('hidden');
 
 		clearScoreBoard();
+		scoreDisplay.textContent = '';
 	}
 
 	// FUNCTIONS SELECTING, SHUFFLING, ASSIGNING THE CARDS

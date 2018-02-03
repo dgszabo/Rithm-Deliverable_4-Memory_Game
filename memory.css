@@ -36,6 +36,13 @@ h3 {
 	border-radius: 20%;
 }
 
+#scoreKeeper {
+	background-color: #C0C0C0;
+	border-top: solid 1px #D3D3D3;
+	color: white;
+	font-size: 1.3em;
+}
+
 #mesh {
 	background-color: #778899;
 	width: 100%;
