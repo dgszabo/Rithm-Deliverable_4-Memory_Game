@@ -154,7 +154,7 @@ document.addEventListener("DOMContentLoaded", function(){
 	// FUNCTIONS SELECTING, SHUFFLING, ASSIGNING THE CARDS
 	// Function selecting the cards from the folder randomly
 	function selectRandomCards() {
-		var allCards = cards;
+		var allCards = [].concat(cards);
 		for(var i = 0; i < imageBoxes.length / 2; i++) {
 			selectedCards.push(allCards.splice(Math.floor(Math.random() * allCards.length) , 1)[0]);
 		}
