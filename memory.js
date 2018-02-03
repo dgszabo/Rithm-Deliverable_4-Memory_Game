@@ -63,6 +63,7 @@ document.addEventListener("DOMContentLoaded", function(){
 	function youWonBoardBtns() {
 		okayBtn.addEventListener('click', function() {
 			youWonBoard.classList.add('hidden');
+			document.querySelectorAll('#scoreBoard button')[1].classList.add('hidden');
 			renderScoreBoard();
 		});
 
@@ -71,6 +72,7 @@ document.addEventListener("DOMContentLoaded", function(){
 			player = nameText.value;
 			writeToLocalStore();
 			nameInputForm.reset();
+			document.querySelectorAll('#scoreBoard button')[1].classList.add('hidden');
 			renderScoreBoard();
 		});
 	}
