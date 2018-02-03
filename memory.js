@@ -198,7 +198,7 @@ document.addEventListener("DOMContentLoaded", function(){
 	// Function rendering the You Won! Board
 	function renderYouWonBoard() {
 		var storageArr = JSON.parse(localStorage.scores);
-		if(storageArr.length < 3 || storageArr[storageArr.length - 1] > score) {
+		if(storageArr.length < 10 || storageArr[storageArr.length - 1] > score) {
 			okayBtn.classList.add('hidden');
 			nameInputForm.classList.remove('hidden');
 		} else {
@@ -266,7 +266,7 @@ document.addEventListener("DOMContentLoaded", function(){
 				}
 			}
 
-			if(storageArr.length > 3) {
+			if(storageArr.length > 10) {
 				storageArr.pop();
 				winnerArr.pop();
 			}
